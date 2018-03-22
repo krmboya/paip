@@ -9,3 +9,19 @@
     (if (member (first reversed-name) *titles*)
 	(last-name (reverse (rest reversed-name)))
 	(first reversed-name))))
+
+
+(defun power (base exp)
+  "Raise base by exp"
+  (if (equalp exp 0)
+      1
+      (if (equalp exp 1)
+	  base
+	  (* base (power base (- exp 1))))))
+
+
+(defun count-atoms (object)
+  "Return the number of atoms represented by object"
+  (if (not (listp object))
+      1
+      (apply #'+ (mapcar #'count-atoms object))))
