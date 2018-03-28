@@ -25,3 +25,15 @@
   (if (not (listp object))
       1
       (apply #'+ (mapcar #'count-atoms object))))
+
+
+(defun count-anywhere (exp match-exp)
+  "Return the number of times exp appears within match-exp"
+  (if (equalp exp match-exp)
+      1
+      (if (listp match-exp)
+	  (if match-exp
+	      (+ (count-anywhere exp (first match-exp))
+		 (count-anywhere exp (rest match-exp)))
+	      0)
+	  0)))
