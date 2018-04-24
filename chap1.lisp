@@ -41,4 +41,4 @@
 
 (defun dot-product (list1 list2)
   "Returns the dot product of list1 and list2"
-  (apply #'+ (mapcar #'* list1 list2))
+  (apply #'+ (mapcar #'* list1 list2)))
