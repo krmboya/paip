@@ -52,3 +52,12 @@
 	   (mappend #'generate1 phrase))
 	  (choices (generate1 (random-elt choices)))
 	  (t (list phrase)))))
+
+
+(defun generate2 (phrase)
+  (let ((choices (rewrites phrase)))
+    (if (not choices)
+	(list phrase)
+	(if (listp (first choices))
+	    (mappend #'generate2 (first choices))
+	    (generate2 (random-elt choices))))))
