@@ -61,3 +61,36 @@
 	(if (listp (first choices))
 	    (mappend #'generate2 (first choices))
 	    (generate2 (random-elt choices))))))
+
+
+(defun generate-all (phrase)
+  "Generate a list of all possible expansions of this phrase."
+  (cond ((null phrase) (list nil))
+	((listp phrase)
+	 (combine-all (generate-all (first phrase))
+		      (generate-all (rest phrase)))) 
+	((rewrites phrase)
+	 (mappend #'generate-all (rewrites phrase)))
+	(t (list (list phrase)))))
+
+
+(defun combine-all (xlist ylist)
+  "Return a list of lists formed by appending a y to an x.
+  E.g., (combine-all '((a) (b)) '((1) (2)))
+  -> ((A 1) (B 1) (A 2) (B 21))."
+  (mappend #'(lambda (y)
+	       (mapcar #'(lambda (x) (append x y)) xlist))
+	   ylist))
+
+
+(defun cross-product (fn xlist ylist)
+  "Return a list of all (fn x y) values."
+  (mappend #' (lambda (y)
+		(mapcar #'(lambda (x) (funcall fn x y))
+			xlist))
+	      ylist))
+
+
+(defun combine-all2 (xlist ylist)
+  "Return a list of lists formed by appending a y to an x"
+  (cross-product #'append xlist ylist))
